@@ -3,7 +3,7 @@ from PIL import Image
 import pytesseract
 
 # this does not work if not executed from the terminal
-pytesseract.pytesseract.tesseract_cmd = '/bin/tesseract'
+#pytesseract.pytesseract.tesseract_cmd = '/bin/tesseract'
 # Sizes of the menus of mensa Martiri (Pisa)
 X_START = 50
 X_END = 720
@@ -66,7 +66,7 @@ def crop_pdftable_to_daymeal(input_pdf:str, day:int, dinner:bool=True):
         y2 -= 12
     else:
         y1 -= 12
-    path_to_save = f'./web_searches/cropped_menu_{day}_{dinner}.pdf'
+    path_to_save = f'./web_connection/cropped_menu_{day}_{dinner}.pdf'
     crop_pdf(input_pdf, x1, y1, x2, y2, path_to_save, dpi=300)
     return path_to_save
 
