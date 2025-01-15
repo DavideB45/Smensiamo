@@ -9,7 +9,7 @@ from web_connection.utils_pdf import *
 from datetime import datetime
 import google.generativeai as genai
 
-PATH_FOR_PDF = './web_connection/menu.pdf'
+PATH_FOR_PDF = '/Users/davideborghini/Documents/GitHub/Smensiamo/web_connection/menu.pdf'
 
 def get_menu_string() -> str:
     '''
@@ -34,12 +34,12 @@ def get_menu_string() -> str:
     is_dinner = datetime.now().time() >= dinner_time
     print(f'Today is {day_from_int(today)}:')
     crop_pdftable_to_daymeal(PATH_FOR_PDF, today, dinner=is_dinner)
-    menu_str = get_text_from_pdf(f'./web_connection/cropped_menu_{today}_{"True" if is_dinner else "False"}.pdf')
+    menu_str = get_text_from_pdf(f'/Users/davideborghini/Documents/GitHub/Smensiamo/web_connection/cropped_menu_{today}_{"True" if is_dinner else "False"}.pdf')
 
     # Remove the saved PDF files
-    for file in os.listdir('./web_connection'):
+    for file in os.listdir('/Users/davideborghini/Documents/GitHub/Smensiamo/web_connection'):
         if file.endswith('.pdf'):
-            os.remove(os.path.join('./web_connection', file))
+            os.remove(os.path.join('/Users/davideborghini/Documents/GitHub/Smensiamo/web_connection', file))
     
     return menu_str
 

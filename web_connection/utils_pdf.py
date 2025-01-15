@@ -1,9 +1,8 @@
 import fitz  # PyMuPDF
 from PIL import Image
-import pytesseract
+import easyocr
+import numpy as np
 
-# this does not work if not executed from the terminal
-#pytesseract.pytesseract.tesseract_cmd = '/bin/tesseract'
 # Sizes of the menus of mensa Martiri (Pisa)
 X_START = 50
 X_END = 720
@@ -66,7 +65,7 @@ def crop_pdftable_to_daymeal(input_pdf:str, day:int, dinner:bool=True):
         y2 -= 12
     else:
         y1 -= 12
-    path_to_save = f'./web_connection/cropped_menu_{day}_{dinner}.pdf'
+    path_to_save = f'/Users/davideborghini/Documents/GitHub/Smensiamo/web_connection/cropped_menu_{day}_{dinner}.pdf'
     crop_pdf(input_pdf, x1, y1, x2, y2, path_to_save, dpi=300)
     return path_to_save
 
@@ -99,7 +98,7 @@ def day_from_int(day:int) -> str:
     '''
     return ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'][day]
 
-def get_text_from_pdf(pdf_path: str, output_txt: str = None, dpi: int = 300, lang: str = "eng") -> str:
+def get_text_from_pdf(pdf_path: str, output_txt: str = None, dpi: int = 300, lang: str = "it") -> str:
     """
     Perform OCR on a PDF file and extract text.
 
@@ -112,6 +111,7 @@ def get_text_from_pdf(pdf_path: str, output_txt: str = None, dpi: int = 300, lan
     Returns:
         str: The extracted text from the PDF.
     """
+    reader = easyocr.Reader([lang], gpu=False)
     extracted_text = ""
 
     # Open the PDF
@@ -123,9 +123,9 @@ def get_text_from_pdf(pdf_path: str, output_txt: str = None, dpi: int = 300, lan
         image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
 
         # Perform OCR on the image
-        page_text = pytesseract.image_to_string(image, lang=lang)
-        extracted_text += f"\n--- Page {page_number + 1} ---\n"
-        extracted_text += page_text
+        results = reader.readtext(np.array(image), detail=0)
+        page_text = "\n".join(results)
+        extracted_text += f"\n--- Page {page_number + 1} ---\n{page_text}"
 
     # Optionally save the text to a file
     if output_txt:
@@ -134,7 +134,6 @@ def get_text_from_pdf(pdf_path: str, output_txt: str = None, dpi: int = 300, lan
 
     pdf_document.close()
     extracted_text = extracted_text.split('--- Page 1 ---')[1]
-    extracted_text = extracted_text.replace('\n\n', '\n')
-    extracted_text = extracted_text.rstrip()
+    extracted_text = extracted_text.replace('\n\n', '\n').rstrip()
 
     return extracted_text
