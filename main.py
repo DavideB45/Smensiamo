@@ -46,8 +46,8 @@ def get_menu_string() -> str:
 if __name__ == '__main__':
     #print(get_menu_string())
     credentials = load_credential()
-    mailer = MailSender(credentials['mail'], credentials['password'], credentials['recipient'])
     genai.configure(api_key=credentials['api_key'])
     model = genai.GenerativeModel("gemini-1.5-flash")
-    response = model.generate_content(f"Il menu di oggi è: {get_menu_string()}. Comunicalo all'utente in modo amichevole e conciso e suggerisci una possibile combinazione. Aggiungi anche una citazione motivazionale di Silvio Berlusconi.")
+    response = model.generate_content(f"Il menu di oggi è: {get_menu_string()}. Comunicalo all'utente in modo amichevole e conciso (sara' inviata una mail) e suggerisci una possibile combinazione (che sia equilibrata dal punto di vista dietetico e spiega il perche'). Aggiungi anche una citazione motivazionale di Silvio Berlusconi. (use emoji)")
+    mailer = MailSender(credentials['mail'], credentials['password'], credentials['recipients'])
     mailer.send_mail("Menu", response.text)

@@ -10,14 +10,14 @@ class MailSender:
     This because all this informations cannot be stored in the class, for security reasons.
     Note: only works with Libero Mail.
     """
-    def __init__(self, mail: str = None, password: str = None, recipient: str = None):
+    def __init__(self, mail: str = None, password: str = None, recipient: list = None):
         """
         Initializes the MailSender object.
         If mail, password or recipient are None, the user will be asked to input them.
         Arguments:
             mail (str|None): the email address of the sender.
             password (str|None): the password of the sender.
-            recipient (str|None): the email address of the recipient.
+            recipient (list|None): the email addresses of the recipients.
         """
         if mail is None:
             self.mail = input("Enter your email: ")
@@ -30,29 +30,23 @@ class MailSender:
         else:
             self.password = password
         if recipient is None:
-            self.recipient = input("Enter the recipient's email: ")
+            self.recipient = input("Enter the recipients' emails (comma separated): ").split(",")
         else:
             self.recipient = recipient
-        self.anomaly_sent = False
-        self.broken_sent = False
 
     def send_mail(self, subject: str, body: str) -> bool:
         """
-        Sends an email to the recipient.
+        Sends an email to all recipients.
         Args:
             subject (str): the subject of the email.
             body (str): the body of the email.
         Returns:
-            bool: True if the email was sent successfully, False otherwise.
+            bool: True if the email was sent successfully to all recipients, False otherwise.
         """
-        if self.anomaly_sent and "anomaly" in body:
-            print("Anomaly email already sent.")
-            return False
-        if self.broken_sent and "malfunctioning" in body:
-            return False
+            
         msg = MIMEMultipart()
         msg["From"] = self.mail
-        msg["To"] = self.recipient
+        msg["To"] = ", ".join(self.recipient)
         msg["Subject"] = subject
         msg.attach(MIMEText(body, "plain"))
 
@@ -64,12 +58,6 @@ class MailSender:
             server.sendmail(self.mail, self.recipient, msg.as_string())
             print("Email sent successfully!")
             success = True
-            print()
-            if "anomaly" in body:
-                print("\nAnomaly email sent.")
-                self.anomaly_sent = True
-            elif "malfunctioning" in body:
-                self.broken_sent = True
         except Exception as e:
             print(f"Error: {e}")
         finally:
