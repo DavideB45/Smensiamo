@@ -46,7 +46,7 @@ class MailSender:
             
         msg = MIMEMultipart()
         msg["From"] = self.mail
-        msg["To"] = ", ".join(self.recipient)
+        msg["Bcc"] = ", ".join(self.recipient)
         msg["Subject"] = subject
         msg.attach(MIMEText(body, "plain"))
 
