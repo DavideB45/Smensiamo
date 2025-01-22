@@ -51,6 +51,6 @@ if __name__ == '__main__':
     response = model.generate_content(f"Il menù della mensa Martiri di oggi è: {get_menu_string()}. \
 Comunicalo all'utente in modo amichevole e conciso (sara' inviata una mail) e \
 suggerisci una possibile combinazione (che sia equilibrata dal punto di vista dietetico e spiega il perche'). \
-Aggiungi anche una citazione motivazionale di Silvio Berlusconi. (usa emoji e non scrivere in markdown)")
+Aggiungi anche una citazione di John Steibeck. (usa emoji e non scrivere in markdown)")
     mailer = MailSender(credentials['mail'], credentials['password'], credentials['recipients'])
     mailer.send_mail("Menu", response.text)

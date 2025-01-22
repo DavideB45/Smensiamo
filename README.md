@@ -1,7 +1,7 @@
 # Smensiamo
 Smensiamo is not a project, an application, or a way to spam emails. Smensiamo is a _mindset_; it is the way you consume lunch and dinner with your friends, the warm comfort of _Mensa Martiri_.
 
-What can make a tour to the university canteen better and more convenient? Well... receiving an email with the menu, a suggested dish, and obviously a Silvio Berlusconi quote. Now deciding what to eat can easily be automated thanks to the power of AI.
+What can make a tour to the university canteen better and more convenient? Well... receiving an email with the menu, a suggested dish, and obviously a John Steinbeck quote. Now deciding what to eat can easily be automated thanks to the power of AI.
 
 ## What the code actually does
 Running `main.py` will retrieve the Martiri's menu and generate a description using a LLM.
