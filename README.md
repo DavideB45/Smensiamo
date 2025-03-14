@@ -23,8 +23,9 @@ The setup is not really straightforward; you'll need to set up a couple of accou
 {
     "mail": "sender@libero.it",
     "password": "password for sender@libero.it",
-    "recipient": ["email1", "email2"],
-    "api_key": "google gemini api key"
+    "recipients": ["email1", "email2"],
+    "api_key": "google gemini api key",
+    "model_id": "gemini-2.0-flash"
 }
 ```
 
